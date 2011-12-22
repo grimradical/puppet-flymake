@@ -1,0 +1,26 @@
+Emacs flymake support for puppet, via puppet-lint.
+Deepak Giridharagopal, 2011
+
+This code is mostly based on flymake-coffee
+(https://github.com/purcell/flymake-coffee), and leverages the excellent
+puppet-lint (https://github.com/rodjek/puppet-lint).
+
+What it does:
+
+Live, as-you-type, warning and error highlighting for your puppet code. Huzzah!
+
+Installation:
+
+First, you need to have flymake working in Emacs. Next, you need to have
+puppet-lint in your $PATH somewhere such that emacs can execute "puppet-lint".
+Take the supplied flymake-puppet.el script, and place it in your emacs load
+path somewhere (which is likely ~/.emacs.d).
+
+I use emacs' puppet-mode for editing puppet files, so the stuff I've added to
+my .emacs looks like so:
+
+    # Start puppet-mode when editing a .pp file
+    (autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
+    (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+    (require 'flymake-puppet)
+    (add-hook 'puppet-mode-hook (lambda () (flymake-puppet-load)))

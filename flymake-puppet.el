@@ -3,7 +3,8 @@
 (require 'flymake)
 
 (defconst flymake-puppet-err-line-patterns
-  '(("\\(.*line \\([0-9]+\\).*\\)" nil 2 nil 1)))
+  '(("\\(.*line \\([0-9]+\\).*\\)" nil 2 nil 1)
+    ("\\(.*.rb:[0-9]+.*\\)" nil nil nil 1)))
 
 (defun flymake-puppet-create-temp-in-system-tempdir (file-name prefix)
   "Return a temporary file name into which flymake can save buffer contents.

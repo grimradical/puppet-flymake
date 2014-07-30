@@ -24,3 +24,10 @@ my .emacs looks like so:
     (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
     (require 'flymake-puppet)
     (add-hook 'puppet-mode-hook (lambda () (flymake-puppet-load)))
+
+You can override the command and args to use. This can e.g. be useful if you want
+to invoke puppet-lint through bundler or if you want to ignore certain checks:
+
+    (setq flymake-puppet-lint-command "bundle")
+    (setq flymake-puppet-lint-args '("exec" "puppet-lint" "--no-autoloader_layout-check"))
+

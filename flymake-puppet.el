@@ -2,6 +2,12 @@
 ;; Deepak Giridharagopal <deepak@brownman.org>
 (require 'flymake)
 
+(defvar flymake-puppet-lint-command "puppet-lint"
+  "How to invoke puppet-lint")
+
+(defvar flymake-puppet-lint-args nil
+  "Additional arguments to puppet-lint")
+
 (defconst flymake-puppet-err-line-patterns
   '(("\\(.*line \\([0-9]+\\).*\\)" nil 2 nil 1)
     ("\\(.*.rb:[0-9]+.*\\)" nil nil nil 1)))
@@ -16,9 +22,9 @@ location."
 
 (defun flymake-puppet-init ()
   "Construct a command that flymake can use to check puppetscript source."
-  (list "puppet-lint"
-        (list (flymake-init-create-temp-buffer-copy
-               'flymake-puppet-create-temp-in-system-tempdir))))
+  (list flymake-puppet-lint-command (append flymake-puppet-lint-args
+          (list (flymake-init-create-temp-buffer-copy
+                 'flymake-puppet-create-temp-in-system-tempdir)))))
 
 (defun flymake-puppet-load ()
   "Configure flymake mode to check the current buffer's puppet syntax.
@@ -29,7 +35,7 @@ does not alter flymake's global configuration, so function
   (interactive)
   (set (make-local-variable 'flymake-allowed-file-name-masks) '(("." flymake-puppet-init)))
   (set (make-local-variable 'flymake-err-line-patterns) flymake-puppet-err-line-patterns)
-  (if (executable-find "puppet-lint")
+  (if (executable-find flymake-puppet-lint-command)
       (flymake-mode t)
     (message "Not enabling flymake: puppet-lint command not found")))
 
